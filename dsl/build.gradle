@@ -15,6 +15,7 @@
  */
 
 apply plugin: 'groovy'
+apply plugin: 'idea'
 apply plugin: 'jacoco'
 apply plugin: 'com.bmuschko.nexus'
 apply plugin: 'maven-publish'
@@ -29,25 +30,13 @@ dependencies {
   annotationProcessor group: 'org.hibernate.validator', name: 'hibernate-validator-annotation-processor', version: project.versions.hibernateValidator
 
   compileOnly group: 'org.projectlombok', name: 'lombok', version: project.versions.lombok
-
   compile group: 'org.codehaus.groovy', name: 'groovy-all', version: project.versions.groovy
 
-  compile group: 'com.google.code.gson', name: 'gson', version: project.versions.gson
-  compile group: 'org.apache.commons', name: 'commons-lang3', version: project.versions.commonsLang
+  compile group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: project.versions.jackson
   compile group: 'javax.validation', name: 'validation-api', version: project.versions.validationApi
-
-  testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: project.versions.junit5
-  testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: project.versions.junit5
-  testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: project.versions.junit5
-
-  testCompile project(':sandbox')
-  testCompile group: 'org.assertj', name: 'assertj-core', version: project.versions.assertj
-  testCompile group: 'net.javacrumbs.json-unit', name: 'json-unit-fluent', version: project.versions.jsonAssert
-
-  testCompile group: 'org.hibernate.validator', name: 'hibernate-validator', version: project.versions.hibernateValidator
-  testCompile group: 'org.glassfish', name: 'javax.el', version: project.versions.javaxEL
-  testCompile group: 'org.glassfish.web', name: 'el-impl', version: project.versions.javaxELImpl
 }
+
+project.ext.delombokDir = file("${buildDir}/delombok")
 
 extraArchive {
   sources = false
@@ -71,7 +60,7 @@ test {
 task delombok(type: JavaExec) {
   inputs.files(sourceSets.main.compileClasspath.files)
 
-  ext.outputDir = file("${buildDir}/delombok")
+  ext.outputDir = delombokDir
   outputs.dir(outputDir)
   outputs.cacheIf { true }
 
@@ -86,6 +75,7 @@ task delombok(type: JavaExec) {
     args(it, "-d", outputDir)
   }
 }
+
 
 task sourcesJar(type: Jar) {
   dependsOn delombok

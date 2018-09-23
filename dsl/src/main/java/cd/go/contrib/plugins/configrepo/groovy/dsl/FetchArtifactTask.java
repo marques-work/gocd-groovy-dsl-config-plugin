@@ -16,54 +16,49 @@
 
 package cd.go.contrib.plugins.configrepo.groovy.dsl;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import groovy.lang.Closure;
 import groovy.lang.DelegatesTo;
 import groovy.transform.stc.ClosureParams;
 import groovy.transform.stc.SimpleType;
-import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.validation.constraints.NotEmpty;
 
 import static groovy.lang.Closure.DELEGATE_ONLY;
+import static lombok.AccessLevel.NONE;
 
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = true)
+@ToString
 public class FetchArtifactTask extends Task<FetchArtifactTask> {
 
-    @Setter(AccessLevel.NONE)
-    @Getter(AccessLevel.NONE)
-    @Expose
-    @SerializedName("is_source_a_file")
+    @Setter(NONE)
+    @Getter(NONE)
+    @JsonProperty("is_source_a_file")
     private final Boolean isFile;
 
-    @Expose
-    @SerializedName("pipeline")
+    @JsonProperty("pipeline")
     @NotEmpty
     private String pipeline;
 
-    @Expose
-    @SerializedName("stage")
+    @JsonProperty("stage")
     @NotEmpty
     private String stage;
 
-    @Expose
-    @SerializedName("job")
+    @JsonProperty("job")
     @NotEmpty
     private String job;
 
-    @Expose
-    @SerializedName("source")
+    @JsonProperty("source")
     @NotEmpty
     private String source;
 
-    @Expose
-    @SerializedName("destination")
+    @JsonProperty("destination")
     @NotEmpty
     private String destination;
 
@@ -72,7 +67,7 @@ public class FetchArtifactTask extends Task<FetchArtifactTask> {
     }
 
     public FetchArtifactTask(Boolean isFile, @DelegatesTo(value = FetchArtifactTask.class, strategy = DELEGATE_ONLY) @ClosureParams(value = SimpleType.class, options = "cd.go.contrib.plugins.configrepo.groovy.dsl.FetchArtifactTask") Closure cl) {
-        super("fetch");
+        super();
         this.isFile = isFile;
         configure(cl);
     }

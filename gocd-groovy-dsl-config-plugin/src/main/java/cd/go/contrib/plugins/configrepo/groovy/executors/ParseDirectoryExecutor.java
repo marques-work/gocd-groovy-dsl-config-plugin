@@ -20,13 +20,11 @@ import cd.go.contrib.plugins.configrepo.groovy.GroovyDslPlugin;
 import cd.go.contrib.plugins.configrepo.groovy.JsonConfigCollection;
 import cd.go.contrib.plugins.configrepo.groovy.PluginRequest;
 import cd.go.contrib.plugins.configrepo.groovy.ServerRequestFailedException;
-import cd.go.contrib.plugins.configrepo.groovy.cli.Main;
 import cd.go.contrib.plugins.configrepo.groovy.dsl.GoCD;
 import cd.go.contrib.plugins.configrepo.groovy.dsl.Pipeline;
+import cd.go.contrib.plugins.configrepo.groovy.dsl.json.GoCDJsonSerializer;
 import cd.go.contrib.plugins.configrepo.groovy.sandbox.GroovyScriptRunner;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.thoughtworks.go.plugin.api.request.GoPluginApiRequest;
 import com.thoughtworks.go.plugin.api.response.DefaultGoPluginApiResponse;
 import com.thoughtworks.go.plugin.api.response.GoPluginApiResponse;
@@ -40,9 +38,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
+import static cd.go.contrib.plugins.configrepo.groovy.dsl.validate.Validator.validate;
+
 public class ParseDirectoryExecutor {
 
-    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
+    private static final GoCDJsonSerializer GOCD_JSON_SERIALIZER = new GoCDJsonSerializer();
 
     private final PluginRequest pluginRequest;
 
@@ -50,23 +50,22 @@ public class ParseDirectoryExecutor {
 
     private GroovyScriptRunner engine;
 
-    public ParseDirectoryExecutor(PluginRequest pluginRequest, GoPluginApiRequest request) {
+    public ParseDirectoryExecutor(PluginRequest pluginRequest, GoPluginApiRequest request) throws IOException {
         this.pluginRequest = pluginRequest;
 
-        Map<String, java.lang.Object> map = new Gson().fromJson(request.requestBody(), new TypeToken<Map<String, java.lang.Object>>() {
-        }.getType());
+        Map<String, java.lang.Object> map = GOCD_JSON_SERIALIZER.fromJson(request.requestBody(), Map.class);
 
         this.directory = (String) map.get("directory");
     }
 
-    public GoPluginApiResponse execute() {
+    public GoPluginApiResponse execute() throws JsonProcessingException {
         try {
             return doParseFiles();
         } catch (ServerRequestFailedException | IOException e) {
             GroovyDslPlugin.LOG.error("Unexpected error occurred in Groovy DSL configuration plugin.", e);
             JsonConfigCollection config = new JsonConfigCollection();
             config.addError(e.toString(), "Groovy DSL config plugin");
-            return DefaultGoPluginApiResponse.error(GSON.toJson(config.getJsonObject()));
+            return DefaultGoPluginApiResponse.error(GOCD_JSON_SERIALIZER.toJsonString(config.getJsonObject()));
         }
     }
 
@@ -85,7 +84,7 @@ public class ParseDirectoryExecutor {
                         result.updateFormatVersionFound((configFromFile).getTargetVersion());
                     }
 
-                    Main.validate(configFromFile, constraintViolations -> {
+                    validate(configFromFile, constraintViolations -> {
                         StringBuilder buf = new StringBuilder();
 
                         for (ConstraintViolation<Object> violation : constraintViolations) {
@@ -95,8 +94,8 @@ public class ParseDirectoryExecutor {
 
                         throw new RuntimeException(buf.toString());
                     });
-                    configFromFile.getEnvironments().forEach(environment -> result.addEnvironment(environment.toJson(), file));
-                    configFromFile.getPipelines().forEach(pipeline -> result.addPipeline(pipeline.toJson(), file));
+                    configFromFile.getEnvironments().forEach(environment -> result.addEnvironment(GOCD_JSON_SERIALIZER.toJson(environment), file));
+                    configFromFile.getPipelines().forEach(pipeline -> result.addPipeline(GOCD_JSON_SERIALIZER.toJson(pipeline), file));
                     GroovyDslPlugin.LOG.debug("Found pipeline configs at " + new File(directory, file));
                 } else {
                     String type = null;
@@ -112,7 +111,7 @@ public class ParseDirectoryExecutor {
             }
         }
         result.updateTargetVersionFromFiles();
-        return DefaultGoPluginApiResponse.success(GSON.toJson(result.getJsonObject()));
+        return DefaultGoPluginApiResponse.success(GOCD_JSON_SERIALIZER.toJsonString(result.getJsonObject()));
     }
 
     private GroovyScriptRunner getEngine() throws IOException {
@@ -122,7 +121,7 @@ public class ParseDirectoryExecutor {
         return engine;
     }
 
-    private String[] getFilesMatchingPattern() throws ServerRequestFailedException {
+    private String[] getFilesMatchingPattern() throws ServerRequestFailedException, IOException {
 
         DirectoryScanner scanner = new DirectoryScanner();
         scanner.setBasedir(directory);

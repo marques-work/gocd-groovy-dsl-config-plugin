@@ -16,26 +16,27 @@
 
 package cd.go.contrib.plugins.configrepo.groovy.dsl;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-import lombok.AccessLevel;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.validation.Valid;
 import java.util.List;
 
+import static lombok.AccessLevel.NONE;
+
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = true)
+@ToString
 abstract class ScmMaterial<T extends ScmMaterial> extends Material<T> {
 
     /**
      * The directory under the sandbox of Go Agent. GoCD will check out the source code into this directory.
      */
-    @Expose
-    @SerializedName("destination")
+    @JsonProperty("destination")
     private String destination;
 
     /**
@@ -44,8 +45,7 @@ abstract class ScmMaterial<T extends ScmMaterial> extends Material<T> {
      * pipeline that contains this material. If the same material is specified more than once in the configuration file,
      * all of them must have the same value for {@code autoUpdate}.
      */
-    @Expose
-    @SerializedName("auto_update")
+    @JsonProperty("auto_update")
     private Boolean autoUpdate;
 
 
@@ -57,19 +57,18 @@ abstract class ScmMaterial<T extends ScmMaterial> extends Material<T> {
      * <p>
      * {@includeCode scm.filter.groovy }
      */
-    @Getter(value = AccessLevel.NONE)
-    @Setter(value = AccessLevel.NONE)
-    @Expose
-    @SerializedName("filter")
+    @Getter(value = NONE)
+    @Setter(value = NONE)
+    @JsonProperty("filter")
     @Valid
     private Filter filter;
 
-    ScmMaterial(String type) {
-        super(type);
+    ScmMaterial() {
+        super();
     }
 
-    ScmMaterial(String name, String type) {
-        super(name, type);
+    ScmMaterial(String name) {
+        super(name);
     }
 
 

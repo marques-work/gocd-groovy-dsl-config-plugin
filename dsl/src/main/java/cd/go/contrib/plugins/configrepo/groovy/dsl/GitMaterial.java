@@ -16,8 +16,7 @@
 
 package cd.go.contrib.plugins.configrepo.groovy.dsl;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import groovy.lang.Closure;
 import groovy.lang.DelegatesTo;
 import groovy.transform.stc.ClosureParams;
@@ -25,6 +24,7 @@ import groovy.transform.stc.SimpleType;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.validation.constraints.NotEmpty;
 
@@ -41,21 +41,20 @@ import static groovy.lang.Closure.DELEGATE_ONLY;
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = true)
+@ToString
 public class GitMaterial extends ScmMaterial<GitMaterial> {
 
     /**
      * The url of the git repository.
      */
-    @Expose
-    @SerializedName("url")
+    @JsonProperty("url")
     @NotEmpty
     private String url;
 
     /**
      * The git branch.
      */
-    @Expose
-    @SerializedName("branch")
+    @JsonProperty("branch")
     private String branch;
 
     /**
@@ -65,8 +64,7 @@ public class GitMaterial extends ScmMaterial<GitMaterial> {
      * Clone depth is dynamically calculated to ensure revisions from GO_FROM_REVISION to GO_TO_REVISION are included
      * in the cloned repository.
      */
-    @Expose
-    @SerializedName("shallow_clone")
+    @JsonProperty("shallow_clone")
     private Boolean shallowClone;
 
     GitMaterial() {
@@ -78,7 +76,7 @@ public class GitMaterial extends ScmMaterial<GitMaterial> {
     }
 
     GitMaterial(String name, @DelegatesTo(value = GitMaterial.class, strategy = DELEGATE_ONLY) @ClosureParams(value = SimpleType.class, options = "cd.go.contrib.plugins.configrepo.groovy.dsl.GitMaterial") Closure cl) {
-        super(name, "git");
+        super(name);
         configure(cl);
     }
 

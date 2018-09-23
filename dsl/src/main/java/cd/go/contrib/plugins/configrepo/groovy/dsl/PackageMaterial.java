@@ -16,8 +16,7 @@
 
 package cd.go.contrib.plugins.configrepo.groovy.dsl;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import groovy.lang.Closure;
 import groovy.lang.DelegatesTo;
 import groovy.transform.stc.ClosureParams;
@@ -25,6 +24,7 @@ import groovy.transform.stc.SimpleType;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.validation.constraints.NotEmpty;
 
@@ -33,10 +33,10 @@ import static groovy.lang.Closure.DELEGATE_ONLY;
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = true)
+@ToString
 public class PackageMaterial extends Material<PackageMaterial> {
 
-    @Expose
-    @SerializedName("package_id")
+    @JsonProperty("package_id")
     @NotEmpty
     private String ref;
 
@@ -49,7 +49,7 @@ public class PackageMaterial extends Material<PackageMaterial> {
     }
 
     PackageMaterial(String name, @DelegatesTo(value = PackageMaterial.class, strategy = DELEGATE_ONLY) @ClosureParams(value = SimpleType.class, options = "cd.go.contrib.plugins.configrepo.groovy.dsl.PackageMaterial") Closure cl) {
-        super(name, "package");
+        super(name);
         configure(cl);
     }
 

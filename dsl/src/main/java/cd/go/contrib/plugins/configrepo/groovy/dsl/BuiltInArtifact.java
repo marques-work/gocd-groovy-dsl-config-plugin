@@ -16,8 +16,7 @@
 
 package cd.go.contrib.plugins.configrepo.groovy.dsl;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import groovy.lang.Closure;
 import groovy.lang.DelegatesTo;
 import groovy.transform.stc.ClosureParams;
@@ -25,6 +24,7 @@ import groovy.transform.stc.SimpleType;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.validation.constraints.NotEmpty;
 
@@ -42,7 +42,8 @@ import static groovy.lang.Closure.DELEGATE_ONLY;
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = true)
-public class BuiltInArtifact extends AbstractArtifact<BuiltInArtifact> {
+@ToString
+public class BuiltInArtifact<T extends BuiltInArtifact> extends AbstractArtifact<T> {
 
     /**
      * The file or folders to publish to the server. GoCD will only upload files that are in the working directory of
@@ -51,8 +52,7 @@ public class BuiltInArtifact extends AbstractArtifact<BuiltInArtifact> {
      * @see <a href="https://ant.apache.org/manual/dirtasks.html#patterns">Source pattern</a>
      * Example: <code>target/**{@literal /}*.xml</code>
      */
-    @Expose
-    @SerializedName("source")
+    @JsonProperty("source")
     @NotEmpty
     private String source;
 
@@ -60,11 +60,15 @@ public class BuiltInArtifact extends AbstractArtifact<BuiltInArtifact> {
      * The destination is relative to the artifacts folder of the current instance on the server side. If it is not
      * specified, the artifact will be stored in the root of the artifacts directory.
      */
-    @Expose
-    @SerializedName("destination")
+    @JsonProperty("destination")
     private String destination;
 
-    BuiltInArtifact(String type, @DelegatesTo(value = BuiltInArtifact.class, strategy = DELEGATE_ONLY) @ClosureParams(value = SimpleType.class, options = "cd.go.contrib.plugins.configrepo.groovy.dsl.Artifact") Closure cl) {
+    @SuppressWarnings("unused" /*method here for deserialization only*/)
+    protected BuiltInArtifact() {
+        this(null, null);
+    }
+
+    public BuiltInArtifact(String type, @DelegatesTo(value = BuiltInArtifact.class, strategy = DELEGATE_ONLY) @ClosureParams(value = SimpleType.class, options = "cd.go.contrib.plugins.configrepo.groovy.dsl.BuiltInArtifact") Closure cl) {
         super(type);
         configure(cl);
     }

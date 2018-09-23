@@ -21,6 +21,10 @@ hs_err_pid*
 /build/
 cli/build/
 cli/out/
+doclet/build/
+doclet/out/
+dsl-validation/build/
+dsl-validation/out/
 dsl/build/
 dsl/out/
 example/build/
@@ -30,7 +34,11 @@ gocd-groovy-dsl-config-plugin/out/
 gocd-groovy-dsl-config-plugin/src/main/resources-generated
 jar-class-loader/build/
 jar-class-loader/out/
+json-schema/build/
+json-schema/out/
+json/build/
+json/out/
 sandbox/build/
 sandbox/out/
-doclet/build/
-doclet/out/
+yaml/build/
+yaml/out/

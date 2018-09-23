@@ -20,6 +20,8 @@ import com.thoughtworks.go.plugin.api.GoApplicationAccessor;
 import com.thoughtworks.go.plugin.api.request.DefaultGoApiRequest;
 import com.thoughtworks.go.plugin.api.response.GoApiResponse;
 
+import java.io.IOException;
+
 /**
  * Instances of this class know how to send messages to the GoCD Server.
  */
@@ -30,7 +32,7 @@ public class PluginRequest {
         this.accessor = accessor;
     }
 
-    public PluginSettings getPluginSettings() throws ServerRequestFailedException {
+    public PluginSettings getPluginSettings() throws ServerRequestFailedException, IOException {
         DefaultGoApiRequest request = new DefaultGoApiRequest(Constants.REQUEST_SERVER_GET_PLUGIN_SETTINGS, Constants.API_VERSION, Constants.PLUGIN_IDENTIFIER);
         GoApiResponse response = accessor.submit(request);
 

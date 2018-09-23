@@ -16,8 +16,7 @@
 
 package cd.go.contrib.plugins.configrepo.groovy.dsl;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import groovy.lang.Closure;
 import groovy.lang.DelegatesTo;
 import groovy.transform.stc.ClosureParams;
@@ -25,6 +24,7 @@ import groovy.transform.stc.SimpleType;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
@@ -42,26 +42,24 @@ import static groovy.lang.Closure.DELEGATE_ONLY;
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = true)
+@ToString
 public class GoCD extends Node<GoCD> {
 
-    @Expose
-    @SerializedName("target_version")
+    @JsonProperty("target_version")
     @Min(3)
     private Integer targetVersion = 3;
 
     /**
      * Container to define one or more pipelines in GoCD
      */
-    @Expose
-    @SerializedName("pipelines")
+    @JsonProperty("pipelines")
     @Valid
     private Pipelines pipelines = new Pipelines();
 
     /**
      * Container to define one or more environments in GoCD
      */
-    @Expose
-    @SerializedName("environments")
+    @JsonProperty("environments")
     @Valid
     private Environments environments = new Environments();
 

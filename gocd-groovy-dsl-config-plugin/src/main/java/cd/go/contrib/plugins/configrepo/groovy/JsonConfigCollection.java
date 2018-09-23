@@ -16,7 +16,9 @@
 
 package cd.go.contrib.plugins.configrepo.groovy;
 
-import com.google.gson.*;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -25,55 +27,53 @@ public class JsonConfigCollection {
 
     private static final int DEFAULT_VERSION = 2;
 
-    private static final Gson GSON = new Gson();
-
     private Set<Integer> uniqueVersions = new HashSet<>();
 
-    private JsonObject mainObject = new JsonObject();
+    private ObjectNode mainObject = JsonNodeFactory.instance.objectNode();
 
-    private JsonArray environments = new JsonArray();
+    private ArrayNode environments = JsonNodeFactory.instance.arrayNode();
 
-    private JsonArray pipelines = new JsonArray();
+    private ArrayNode pipelines = JsonNodeFactory.instance.arrayNode();
 
-    private JsonArray errors = new JsonArray();
+    private ArrayNode errors = JsonNodeFactory.instance.arrayNode();
 
     public JsonConfigCollection() {
         updateTargetVersionTo(DEFAULT_VERSION);
-        mainObject.add("environments", environments);
-        mainObject.add("pipelines", pipelines);
-        mainObject.add("errors", errors);
+        mainObject.set("environments", environments);
+        mainObject.set("pipelines", pipelines);
+        mainObject.set("errors", errors);
     }
 
-    protected JsonArray getEnvironments() {
+    protected ArrayNode getEnvironments() {
         return environments;
     }
 
-    public void addEnvironment(JsonElement environment, String location) {
+    public void addEnvironment(ObjectNode environment, String location) {
         environments.add(environment);
-        environment.getAsJsonObject().add("location", new JsonPrimitive(location));
+        environment.put("location", location);
     }
 
-    public JsonObject getJsonObject() {
+    public ObjectNode getJsonObject() {
         return mainObject;
     }
 
-    public void addPipeline(JsonElement pipeline, String location) {
+    public void addPipeline(ObjectNode pipeline, String location) {
         pipelines.add(pipeline);
-        pipeline.getAsJsonObject().add("location", new JsonPrimitive(location));
+        pipeline.put("location", location);
     }
 
-    public JsonArray getPipelines() {
+    public ArrayNode getPipelines() {
         return pipelines;
     }
 
-    public JsonArray getErrors() {
+    public ArrayNode getErrors() {
         return errors;
     }
 
     public void addError(String message, String location) {
-        JsonObject error = new JsonObject();
-        error.addProperty("message", message);
-        error.addProperty("location", location);
+        ObjectNode error = JsonNodeFactory.instance.objectNode();
+        error.put("message", message);
+        error.put("location", location);
         this.errors.add(error);
     }
 
@@ -98,6 +98,6 @@ public class JsonConfigCollection {
 
     private void updateTargetVersionTo(int targetVersion) {
         mainObject.remove("target_version");
-        mainObject.add("target_version", new JsonPrimitive(targetVersion));
+        mainObject.put("target_version", targetVersion);
     }
 }

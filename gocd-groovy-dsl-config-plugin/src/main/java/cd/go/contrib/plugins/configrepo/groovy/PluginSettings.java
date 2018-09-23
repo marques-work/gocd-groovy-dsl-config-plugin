@@ -16,31 +16,27 @@
 
 package cd.go.contrib.plugins.configrepo.groovy;
 
-import com.google.gson.FieldNamingPolicy;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
 import cd.go.contrib.plugins.configrepo.groovy.executors.GetPluginConfigurationExecutor;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import org.apache.commons.lang3.StringUtils;
 
-public class PluginSettings {
-    public static final Gson GSON = new GsonBuilder()
-            .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-            .excludeFieldsWithoutExposeAnnotation()
-            .create();
+import java.io.IOException;
 
-    @Expose
-    @SerializedName("include_file_pattern")
+public class PluginSettings {
+    private static final ObjectMapper MAPPER = new ObjectMapper()
+            .setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
+
+    @JsonProperty("include_file_pattern")
     private String includeFilePattern;
 
-    @Expose
-    @SerializedName("exclude_file_pattern")
+    @JsonProperty("exclude_file_pattern")
     private String excludeFilePattern;
 
 
-    public static PluginSettings fromJSON(String json) {
-        return GSON.fromJson(json, PluginSettings.class);
+    public static PluginSettings fromJSON(String json) throws IOException {
+        return MAPPER.readValue(json, PluginSettings.class);
     }
 
     public String includeFilePattern() {

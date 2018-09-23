@@ -22,16 +22,17 @@ configurations {
 
 dependencies {
   compile project(':dsl')
+  compile project(':dsl-validation')
+  compile project(':json')
+  compile project(':sandbox')
   compile project(':cli')
 
   compile group: 'org.codehaus.groovy', name: 'groovy-all', version: project.versions.groovy
 
   extractedAtTopLevel project(':jar-class-loader')
 
-  compile group: 'com.google.code.gson', name: 'gson', version: project.versions.gson
   compile group: 'org.apache.ant', name: 'ant', version: project.versions.ant
   compile group: 'org.apache.commons', name: 'commons-lang3', version: project.versions.commonsLang
-  compile group: 'org.hibernate.validator', name: 'hibernate-validator-annotation-processor', version: project.versions.hibernateValidator
 
   compileOnly group: 'cd.go.plugin', name: 'go-plugin-api', version: project.versions.gocdPluginApi
 

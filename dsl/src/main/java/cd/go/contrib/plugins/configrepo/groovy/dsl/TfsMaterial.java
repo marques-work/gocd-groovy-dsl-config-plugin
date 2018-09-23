@@ -23,6 +23,7 @@ import groovy.transform.stc.SimpleType;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.validation.constraints.NotBlank;
 
@@ -40,6 +41,7 @@ import static groovy.lang.Closure.DELEGATE_ONLY;
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = true)
+@ToString
 public class TfsMaterial extends ScmMaterial<TfsMaterial> {
 
     /**
@@ -79,7 +81,7 @@ public class TfsMaterial extends ScmMaterial<TfsMaterial> {
     }
 
     TfsMaterial(String name, @DelegatesTo(value = TfsMaterial.class, strategy = DELEGATE_ONLY) @ClosureParams(value = SimpleType.class, options = "cd.go.contrib.plugins.configrepo.groovy.dsl.TfsMaterial") Closure cl) {
-        super(name, "tfs");
+        super(name);
         configure(cl);
     }
 

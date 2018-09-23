@@ -16,7 +16,9 @@
 
 dependencies {
   compile project(':dsl')
+  compile project(':json')
   compile project(':sandbox')
+  compile project(':dsl-validation')
   compile group: 'com.beust', name: 'jcommander', version: project.versions.jcommander
   compile group: 'org.codehaus.groovy', name: 'groovy-all', version: project.versions.groovy
   compile group: 'org.hibernate.validator', name: 'hibernate-validator', version: project.versions.hibernateValidator
