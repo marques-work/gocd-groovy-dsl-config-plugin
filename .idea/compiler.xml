@@ -6,27 +6,27 @@
       <profile default="true" name="Default" enabled="true" />
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="gocd-groovy-dsl-config-plugin.cli.main" target="1.8" />
-      <module name="gocd-groovy-dsl-config-plugin.cli.test" target="1.8" />
-      <module name="gocd-groovy-dsl-config-plugin.doclet.main" target="1.8" />
-      <module name="gocd-groovy-dsl-config-plugin.doclet.test" target="1.8" />
-      <module name="gocd-groovy-dsl-config-plugin.dsl-validation.main" target="1.8" />
-      <module name="gocd-groovy-dsl-config-plugin.dsl-validation.test" target="1.8" />
-      <module name="gocd-groovy-dsl-config-plugin.dsl.examples" target="1.8" />
-      <module name="gocd-groovy-dsl-config-plugin.dsl.main" target="1.8" />
-      <module name="gocd-groovy-dsl-config-plugin.dsl.test" target="1.8" />
-      <module name="gocd-groovy-dsl-config-plugin.example.main" target="1.8" />
-      <module name="gocd-groovy-dsl-config-plugin.example.test" target="1.8" />
-      <module name="gocd-groovy-dsl-config-plugin.gocd-groovy-dsl-config-plugin.main" target="1.8" />
-      <module name="gocd-groovy-dsl-config-plugin.gocd-groovy-dsl-config-plugin.test" target="1.8" />
-      <module name="gocd-groovy-dsl-config-plugin.groovy-export.main" target="1.8" />
-      <module name="gocd-groovy-dsl-config-plugin.groovy-export.test" target="1.8" />
-      <module name="gocd-groovy-dsl-config-plugin.jar-class-loader.main" target="1.8" />
-      <module name="gocd-groovy-dsl-config-plugin.jar-class-loader.test" target="1.8" />
-      <module name="gocd-groovy-dsl-config-plugin.json.main" target="1.8" />
-      <module name="gocd-groovy-dsl-config-plugin.json.test" target="1.8" />
-      <module name="gocd-groovy-dsl-config-plugin.sandbox.main" target="1.8" />
-      <module name="gocd-groovy-dsl-config-plugin.sandbox.test" target="1.8" />
+      <module name="gocd-groovy-dsl-config-plugin.cli.main" target="11" />
+      <module name="gocd-groovy-dsl-config-plugin.cli.test" target="11" />
+      <module name="gocd-groovy-dsl-config-plugin.doclet.main" target="11" />
+      <module name="gocd-groovy-dsl-config-plugin.doclet.test" target="11" />
+      <module name="gocd-groovy-dsl-config-plugin.dsl-validation.main" target="11" />
+      <module name="gocd-groovy-dsl-config-plugin.dsl-validation.test" target="11" />
+      <module name="gocd-groovy-dsl-config-plugin.dsl.examples" target="11" />
+      <module name="gocd-groovy-dsl-config-plugin.dsl.main" target="11" />
+      <module name="gocd-groovy-dsl-config-plugin.dsl.test" target="11" />
+      <module name="gocd-groovy-dsl-config-plugin.example.main" target="11" />
+      <module name="gocd-groovy-dsl-config-plugin.example.test" target="11" />
+      <module name="gocd-groovy-dsl-config-plugin.gocd-groovy-dsl-config-plugin.main" target="11" />
+      <module name="gocd-groovy-dsl-config-plugin.gocd-groovy-dsl-config-plugin.test" target="11" />
+      <module name="gocd-groovy-dsl-config-plugin.groovy-export.main" target="11" />
+      <module name="gocd-groovy-dsl-config-plugin.groovy-export.test" target="11" />
+      <module name="gocd-groovy-dsl-config-plugin.jar-class-loader.main" target="11" />
+      <module name="gocd-groovy-dsl-config-plugin.jar-class-loader.test" target="11" />
+      <module name="gocd-groovy-dsl-config-plugin.json.main" target="11" />
+      <module name="gocd-groovy-dsl-config-plugin.json.test" target="11" />
+      <module name="gocd-groovy-dsl-config-plugin.sandbox.main" target="11" />
+      <module name="gocd-groovy-dsl-config-plugin.sandbox.test" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>

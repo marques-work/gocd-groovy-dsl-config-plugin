@@ -22,6 +22,29 @@ import cd.go.contrib.plugins.configrepo.groovy.dsl.GoCD
 def releases = ['18.1.0', '17.12.0']
 
 GoCD.script {
+  branches {
+    matching {
+      url = "https://github.com/marques-work/sample-node"
+      pattern = ~/^refs\/heads\/.+/
+
+      each { ctx ->
+        println("hey!")
+        pipeline("pr-${ctx.branchSanitized}") {
+          materials { add(ctx.repo) }
+          stages {
+            stage('tests') {
+              jobs {
+                job('units') {
+                  tasks { bash { commandString = 'whoami' } }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
   pipelines {
     releases.each { releaseNumber ->
       pipeline("website-${releaseNumber}") {

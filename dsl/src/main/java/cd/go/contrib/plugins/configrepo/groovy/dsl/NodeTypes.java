@@ -30,6 +30,8 @@ public class NodeTypes {
                             cd.go.contrib.plugins.configrepo.groovy.dsl.AbstractBuiltInArtifact.class,
                             cd.go.contrib.plugins.configrepo.groovy.dsl.Approval.class,
                             cd.go.contrib.plugins.configrepo.groovy.dsl.Artifacts.class,
+                            cd.go.contrib.plugins.configrepo.groovy.dsl.BranchMatcher.class,
+                            cd.go.contrib.plugins.configrepo.groovy.dsl.BranchedWorkflows.class,
                             cd.go.contrib.plugins.configrepo.groovy.dsl.BuildArtifact.class,
                             cd.go.contrib.plugins.configrepo.groovy.dsl.CollectionNode.class,
                             cd.go.contrib.plugins.configrepo.groovy.dsl.ConfigRepoMaterial.class,

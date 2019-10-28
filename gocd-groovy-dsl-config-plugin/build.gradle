@@ -48,6 +48,10 @@ dependencies {
 
 sourceSets {
   main.compileClasspath += project.configurations.compileOnly
+  main {
+    java { srcDirs = [] }
+    groovy { srcDirs += ['src/main/java'] }
+  }
 }
 
 jar {

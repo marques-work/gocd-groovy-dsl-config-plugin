@@ -55,6 +55,11 @@ gocdPlugin {
 allprojects {
   group = 'cd.go.groovydsl'
   version = gocdPlugin.fullVersion(project)
+
+  tasks.withType(JavaCompile) {
+    sourceCompatibility = '11'
+    targetCompatibility = '11'
+  }
 }
 
 subprojects {
