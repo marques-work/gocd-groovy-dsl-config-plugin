@@ -33,21 +33,10 @@ import static java.lang.String.format;
 public class BranchFetcher {
 
     static void log(String msg) {
-        Writer output;
-        try {
-            output = new BufferedWriter(new FileWriter("/tmp/plugin.log"));  //clears file every time
-            output.append(msg + "\n");
-            output.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        System.out.println(msg);
     }
 
     public static List<String> branchesMatching(String url, Pattern filter) {
-        return Collections.singletonList("FOOBAR");
-    }
-
-    public static List<String> mbranchesMatching(String url, Pattern filter) {
         Process git;
         try {
             log("FETCHING branches");

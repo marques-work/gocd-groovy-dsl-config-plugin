@@ -27,7 +27,7 @@ GoCD.script {
       url = "https://github.com/marques-work/sample-node"
       pattern = ~/^refs\/heads\/.+/
 
-      each { ctx ->
+      onMatch { ctx ->
         println("hey!")
         pipeline("pr-${ctx.branchSanitized}") {
           materials { add(ctx.repo) }

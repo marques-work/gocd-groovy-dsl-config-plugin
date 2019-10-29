@@ -52,13 +52,14 @@ public class BranchMatcher extends Node<GitMaterial> {
         this.pipelines = pipelines;
     }
 
-    public void each(@DelegatesTo(value = Pipelines.class, strategy = DELEGATE_ONLY) @ClosureParams(value = SimpleType.class, options = "cd.go.contrib.plugins.configrepo.groovy.dsl.BranchContext") Closure cl) {
+    public void onMatch(@DelegatesTo(value = Pipelines.class, strategy = DELEGATE_ONLY) @ClosureParams(value = SimpleType.class, options = "cd.go.contrib.plugins.configrepo.groovy.dsl.BranchContext") Closure cl) {
         List<String> branches = BranchFetcher.branchesMatching(url, pattern);
-        cl.setDelegate(pipelines);
-        cl.setResolveStrategy(DELEGATE_ONLY);
+        final Closure lambda = cl.dehydrate();
+        lambda.setDelegate(pipelines);
+        lambda.setResolveStrategy(DELEGATE_ONLY);
         branches.forEach((String branch) -> {
             BranchContext ctx = new BranchContext(url, branch);
-            cl.call(ctx);
+            lambda.call(ctx);
         });
     }
 }
